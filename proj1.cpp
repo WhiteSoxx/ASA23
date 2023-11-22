@@ -5,7 +5,6 @@
 unsigned _Xsize, _Ysize, _NumPieces;
 std::list<std::tuple<int,int,int>> _pieces;
 // tuple -> (x_size, y_size, price)
-
 void readInput(){
     int x,y,price;
     std::cin >> _Xsize; std::cin.ignore(); std::cin >> _Ysize;
@@ -14,7 +13,7 @@ void readInput(){
         std::cin >> x; std::cin.ignore(); std::cin >> y; std::cin.ignore(); std::cin >> price;
         _pieces.push_front(std::make_tuple(x,y,price));
     }
-    
+
     // std :: cout << _Xsize << std::endl;
     // std :: cout << _Ysize << std::endl;
     // for (std::list<std::tuple<int,int,int>>::iterator it_i = _pieces.begin(); it_i != _pieces.end(); ++it_i) {
