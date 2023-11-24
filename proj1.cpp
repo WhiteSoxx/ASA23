@@ -48,8 +48,6 @@ int maxPrice(int x, int y){
             
         }
         //corte vertical
-        
-        
         return _results[_Xsize][_Ysize];
     }
 
