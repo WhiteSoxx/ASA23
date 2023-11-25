@@ -46,9 +46,6 @@ int maxPrice(int x, int y){
             _verticalCut[1] =  y - _verticalCut[0];
             decider+=2;
         }
-        // cout << x << endl;
-        // cout << y << endl;
-        // cout << "----------" << endl;
         switch(decider){
             case(0): max_PricePiece = price;
                 break;
@@ -65,7 +62,6 @@ int maxPrice(int x, int y){
         decider = 0;
     }
     _results[x-1][y-1] = max_Price;
-    //cout << "----------" << endl;
     return _results[_Xsize-1][_Ysize-1];
 }
 
