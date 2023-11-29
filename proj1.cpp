@@ -37,9 +37,8 @@ int maxPrice(int x, int y){
     if (_pieces.count(key) > 0) max_price = _pieces[key];
     else if(_pieces.count(key_rot) > 0) max_price = _pieces[key_rot];
     for (int k = 1; k < max(x,y); k++){
-        if (x > k){
+        if (x > k)
             max_price = max(max_price,maxPrice(k,y) + maxPrice(x-k,y));
-        }
         if (y > k) 
             max_price = max(max_price,maxPrice(x,k) + maxPrice(x,y-k));
     }
