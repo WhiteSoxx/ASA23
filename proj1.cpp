@@ -34,11 +34,11 @@ void maxPrice(int x, int y){
     if (_results[x-1][y-1].price != -1) price = _results[x-1][y-1].price;
     if (_results[y-1][x-1].price != -1) price = _results[y-1][x-1].price;
     for (int k = 1; k < max(x,y); k++){
-        if (x > k){
+        if (x > k && k <= x/2){
             horizontal_cut = _results[k-1][y-1].price + _results[x-k-1][y-1].price;
             max_horizontal_cut = (horizontal_cut > max_horizontal_cut) ? horizontal_cut : max_horizontal_cut;
         }
-        if (y > k){
+        if (y > k && k <= y/2){
             vertical_cut = _results[x-1][k-1].price + _results[x-1][y-k-1].price;
             max_vertical_cut = (vertical_cut > max_vertical_cut) ? vertical_cut : max_vertical_cut;
         }
