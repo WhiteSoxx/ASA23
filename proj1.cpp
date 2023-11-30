@@ -45,7 +45,6 @@ void maxPrice(int x, int y){
     }
     _results[x-1][y-1].price = max(max(price,max_horizontal_cut),max_vertical_cut);
 }
-
 int main(){
     //auto start_time = high_resolution_clock::now();
     readInput();
