@@ -15,7 +15,7 @@ struct Price{
 Price **_results;
 
 void readInput(){
-    int x,y,price;
+    int x, y, price;
     cin >> _Xsize; cin.ignore(); cin >> _Ysize;
     cin >> _NumPieces;
     _results = new Price*[max(_Xsize,_Ysize)];
@@ -28,7 +28,7 @@ void readInput(){
                 _results[x-1][y-1].price = max(max(_results[x-1][y-1].price, _results[y-1][x-1].price),price);
                 _results[y-1][x-1].price = _results[x-1][y-1].price;
             }
-            else{_results[x-1][y-1].price = price;}
+            else if (_results[x-1][y-1].price < price) {_results[x-1][y-1].price = price;}
         }
         
     }
