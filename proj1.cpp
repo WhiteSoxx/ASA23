@@ -35,11 +35,10 @@ void maxPrice(int x, int y){
 }
 int main(){
     readInput();
-    for (int i = 1; i <= _Xsize ; i++){
+    for (int i = 1; i <= _Xsize ; i++)
         for(int j = 1; j <= _Ysize; j++)
             if (!_results[i][j].done) 
                 maxPrice(i,j);
-    }
     cout << _results[_Xsize][_Ysize].price<< endl;
     return 0;
 }
