@@ -8,23 +8,22 @@
 #define BLACK 2
 
 using namespace std;
-int _V,_E;
+int _V,_E,_SCC = 0;
 int _time = 0,_end;
 bool _first_dfs = true;
 struct Vertice{
-    int parent;
     int color = WHITE;
     int find_time = 0;
     int end_time = 0;
     int scc;
 };
-
 Vertice * _first_vertices;
 Vertice * _second_vertices;
 int * _first_order;
 int * _second_order;
 list<int>* graph;
 list<int>* graphT;
+
 void readGraph(){
     int u,v;
     scanf("%d %d",&_V,&_E);
@@ -32,7 +31,6 @@ void readGraph(){
     graph = new list<int>[_V+1];
     graphT = new list<int>[_V+1];
     _first_vertices = new Vertice[_V+1];
-    _second_vertices = new Vertice[_V+1];
     _first_order = new int[_V+1];
     _second_order = new int[_V+1];
     for (int i = 1; i <= _E; i++){
@@ -60,6 +58,7 @@ void Dfs_Visit(list<int>* local_graph, stack<int> stack,Vertice* vertices) {
                     _second_order[_end] = V;
                     _end--;
                 }
+                else vertices[V].scc = _SCC;
             }
             stack.pop();
         }
@@ -71,6 +70,7 @@ void Dfs(list<int>* local_graph,Vertice * vertices,int * order){
     for (int i = 1; i <= _V; i++)
         if (!vertices[order[i]].color){ // WHITE
         //if GRAY it's in the stack already
+            if (!_first_dfs) _SCC++;
             stack.push(order[i]);
             Dfs_Visit(local_graph,stack,vertices);
         }
@@ -81,9 +81,13 @@ int main(){
     Dfs(graph,_first_vertices,_first_order);
     _time = 0;
     _first_dfs = false;
+    free(_first_vertices);
+    free(_first_order);
+    _second_vertices = new Vertice[_V+1];
     Dfs(graphT,_second_vertices,_second_order);
     for (int i = 1; i <= _V; i++){
-        printf("%d -> %d/%d\n",_second_order[i],_second_vertices[_second_order[i]].find_time,_second_vertices[_second_order[i]].end_time);
+        printf("%d -> %d/%d -> scc: %d\n",_second_order[i],_second_vertices[_second_order[i]].find_time,
+            _second_vertices[_second_order[i]].end_time,_second_vertices[_second_order[i]].scc);
     }
     return 0;
 }
