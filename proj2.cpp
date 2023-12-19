@@ -53,7 +53,6 @@ void Dfs_Visit(list<int>* local_graph, stack<int> stack,Vertice* vertices) {
     int scc = 0;
     bool scc_terminated = false;
     while(!stack.empty()){
-        //printf(".................\n");
         int V = stack.top();
         if (vertices[V].color == WHITE){ 
             _time++;
