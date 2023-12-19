@@ -1,15 +1,15 @@
 #include <iostream>
 #include <list>
 #include <vector>
-#include <stack>
+#include <bits/stdc++.h>
 
 #define WHITE 0
 #define GRAY 1
 #define BLACK 2
 
 using namespace std;
-int _V, _E, _SCC = 0;
-int _time = 0, _end;
+int _V,_E,_SCC = 0;
+int _time = 0,_end;
 int _path = 0;
 bool _first_dfs = true;
 struct Vertice{
@@ -31,7 +31,7 @@ list<int>* graphT;
 
 void readGraph(){
     int u,v;
-    if(scanf("%d %d",&_V,&_E))
+    scanf("%d %d",&_V,&_E);
     _end = _V;
     graph = new list<int>[_V+1];
     graphT = new list<int>[_V+1];
@@ -44,12 +44,12 @@ void readGraph(){
             _first_order[i] = i;
             _scc_max_path[i] = 0;
         }
-        if(scanf("%d %d",&u,&v))
+        scanf("%d %d",&u,&v);
         graph[u].push_front(v);
         graphT[v].push_front(u);
     }
 }
-void Dfs_Visit(list<int>* local_graph, stack<int> stack, Vertice* vertices) {
+void Dfs_Visit(list<int>* local_graph, stack<int> stack,Vertice* vertices) {
     int scc = 0;
     bool scc_terminated = false;
     while(!stack.empty()){
@@ -58,7 +58,7 @@ void Dfs_Visit(list<int>* local_graph, stack<int> stack, Vertice* vertices) {
             _time++;
             vertices[V].color = GRAY;
             vertices[V].find_time = _time;
-            for(list<int>::iterator it = local_graph[V].begin(); it != local_graph[V].end(); it++){
+            for(list<int>::iterator it = local_graph[V].begin(); it != local_graph[V].end();it++){
                 if (!_first_dfs){ 
                     vertices[*it].parent = V;
                     if (_scc[0] != *it){
@@ -89,15 +89,15 @@ void Dfs_Visit(list<int>* local_graph, stack<int> stack, Vertice* vertices) {
                 }
             }
             if (!_first_dfs){
-                _scc_max_path[vertices[V].scc] = max(vertices[V].path, _scc_max_path[vertices[V].scc]);
-                _path = max(_scc_max_path[vertices[V].scc], _path);
+                _scc_max_path[vertices[V].scc] = max(vertices[V].path,_scc_max_path[vertices[V].scc]);
+                _path = max(_scc_max_path[vertices[V].scc],_path);
                 //printf("V: %d -> path: %d\n",V,vertices[V].path);
             }
             stack.pop();
             // o scc do parent ainda tava nulo
             if (!_first_dfs && (vertices[vertices[V].parent].scc != vertices[V].scc) && vertices[V].scc != 0 && vertices[V].parent
             && !scc_terminated){
-                vertices[vertices[V].parent].path = max(max(_scc_max_path[vertices[V].scc] + 1, _scc_max_path[vertices[vertices[V].parent].scc]), vertices[vertices[V].parent].path);
+                vertices[vertices[V].parent].path = max(max(_scc_max_path[vertices[V].scc] + 1, _scc_max_path[vertices[vertices[V].parent].scc]),vertices[vertices[V].parent].path);
                 //_path = max(_scc_max_path[vertices[V].scc],_path);
                 //printf("parent: %d, path: %d\n",vertices[V].parent,vertices[vertices[V].parent].path);
                 
@@ -117,12 +117,12 @@ void Dfs(list<int>* local_graph,Vertice * vertices,int * order){
                 _scc[0] = order[i];
                 //printf("%d\n",_scc[0]);
             }
-            Dfs_Visit(local_graph, stack, vertices);
+            Dfs_Visit(local_graph,stack,vertices);
         }
 }
 int main(){
     readGraph();
-    Dfs(graph, _first_vertices, _first_order);
+    Dfs(graph,_first_vertices,_first_order);
     _time = 0;
     _first_dfs = false;
     
@@ -132,16 +132,9 @@ int main(){
     //     printf("%d -> %d/%d -> scc: %d\n",_first_order[i],_first_vertices[_first_order[i]].find_time,
     //         _first_vertices[_first_order[i]].end_time,_first_vertices[_first_order[i]].scc);
     // }
-    delete [] _first_vertices;
-    delete [] _first_order;
-    Dfs(graphT, _second_vertices, _second_order);
-
-    delete[] _second_vertices;
-    delete[] _second_order;
-    delete[] _scc_max_path;
-    delete[] _scc;
-    delete[] graph;
-    delete[] graphT;
+    free(_first_vertices);
+    free(_first_order);
+    Dfs(graphT,_second_vertices,_second_order);
     // printf("---------------\n");
     // for (int i = 1; i <= _V; i++){
     //     printf("%d -> %d/%d -> scc: %d\n",_second_order[i],_second_vertices[_second_order[i]].find_time,
@@ -150,7 +143,6 @@ int main(){
     // for (int i = 1; i <= _V; i++){
     //     printf("SCC %d: %d\n",i,_scc_max_path[i]);
     // }
-    printf("%d\n", _path);
+    printf("%d\n",_path);
     return 0;
 }
-
