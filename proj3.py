@@ -2,6 +2,7 @@ from pulp import *
 
 prob = LpProblem("",LpMaximize);
 
+total_profit = 0
 num_toys, num_bundles, max_toys = map(int,input().split())
 
 toys_and_bundles = list(range(1,num_toys+num_bundles+1))
@@ -18,13 +19,13 @@ for i in range(1,num_toys+num_bundles+1):
         toys_bundles.setdefault(toy2, []).append(i)
         toys_bundles.setdefault(toy3, []).append(i)
 
-for i in range(0,num_bundles+num_toys):
-    print(f'Index: {i}, Valor: {toys_and_bundles[i]}, Profit: {profit[i+1]}')
-    if (i <= num_toys - 1):
-        print(f'Capacity: {capacity[i+1]}')
+# for i in range(0,num_bundles+num_toys):
+#     print(f'Index: {i}, Valor: {toys_and_bundles[i]}, Profit: {profit[i+1]}')
+#     if (i <= num_toys - 1):
+#         print(f'Capacity: {capacity[i+1]}')
 
-for key,value in toys_bundles.items():
-    print(f'Toy: {key}, Lista de bundles: {value}')
+# for key,value in toys_bundles.items():
+#     print(f'Toy: {key}, Lista de bundles: {value}')
 
 
 vars = LpVariable.dict("", toys_and_bundles, 0, None, LpInteger)
@@ -33,13 +34,18 @@ prob += lpSum([vars[t_b] * profit[t_b] for t_b in toys_and_bundles])
 
 prob += lpSum(vars[t_b] * (3 if t_b > num_toys else 1) for t_b in toys_and_bundles) <= max_toys
 
-# for t_b in toys_and_bundles:
-#     if t_b in toys_bundles:
-#         prob += lpSum(vars[t_b] +) <= capacity[t_b]
-#     else:
-#         prob += vars[t_b] <= 
+for t_b in range(1,num_toys+1):
+    if t_b in toys_bundles:
+        prob += (vars[t_b] + lpSum(vars[toys_bundles[t_b][i]] for i in range(len(toys_bundles[t_b])))) <= capacity[t_b]                        
+    else:
+        prob += (vars[t_b]) <= capacity[t_b]
 
-#prob += lpSum()
+prob.solve(GLPK(msg=0))
+
+for i in range(len(prob.variables())):
+    v = prob.variables()[i]
+    total_profit += v.varValue * profit[i+1]
+print(total_profit)
 
 
 
