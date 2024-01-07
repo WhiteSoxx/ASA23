@@ -21,8 +21,6 @@ for i in range(1,num_toys+num_bundles+1):
         toys_bundles.setdefault(toy3, []).append(i)
         variables[i] = LpVariable("",0,min(min(capacity[toy1],capacity[toy2]),capacity[toy3]),cat = LpInteger)
 
-
-
 vars = LpVariable.dict("", variables, 0, None, LpInteger)
 
 prob += lpSum([vars[i] * profit[i] for i in range(1,num_bundles+num_toys+1)])
